@@ -28,4 +28,6 @@ Progress tracker:
   - Spent quite a bit of time with this one as this was simple yet a little unfamiliar
 - Lesson 11: Seperate Source Files
   - Straight forward, also did some refactoring to get the two projects named better and in seperate folders
-- Lesson 12:
+- Lesson 12: Unit Testing
+  - Struggled a little with syntax but after doing it for both the game and the fundraising app it is making sense, though I'm not convinced I tested every possibility.  But, that may be the QA brain coming out.
+- Lesson 13
