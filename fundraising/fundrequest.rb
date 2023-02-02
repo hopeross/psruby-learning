@@ -1,5 +1,5 @@
 class FundRequest
-  attr_reader :project_current_funding, :project_target_funding, :project_name
+  attr_reader :project_current_funding, :project_target_funding, :project_name, :project_start_date
   attr_writer :project_name
 
   def initialize(name, current_funding=0, target_funding, date_started)
