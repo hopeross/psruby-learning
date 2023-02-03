@@ -45,4 +45,24 @@ describe Player do
     end
   end
 
+  context do
+    before do
+      @player = Player.new("Popeye", 150)
+    end
+
+    it "is a strong character" do
+      @player.strong?.should be true
+    end
+  end
+
+  context do
+    before do
+      @player = Player.new("Kermit", 70 )
+    end
+
+    it "is a whimpy character" do
+      @player.strong?.should be false
+    end
+  end
+
 end

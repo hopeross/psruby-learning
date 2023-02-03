@@ -20,7 +20,12 @@ class FundRequest
 
   def add_funding(amount)
     @project_current_funding += amount
-    "The project received $#{amount} in funding."
+    if @project_current_funding >= @project_target_funding
+      "The project has reached or exceeded their goal of $#{@project_target_funding}!!!"
+    else
+      "The project received $#{amount} in funding."
+    end
+
   end
 
   def remove_funding(amount)

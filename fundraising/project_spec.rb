@@ -1,45 +1,47 @@
 require_relative 'spec_helper'
+require_relative 'project'
 require_relative 'fundrequest'
+require_relative 'die'
 
-describe FundRequest do
+describe Project do
   before do
     @current_funding = 100
     @target_funding = 10000
     @start_date = "01/01/2001"
-    @project = FundRequest.new("Testing McTesterson", @current_funding, @target_funding, @start_date)
+    @fund_request = FundRequest.new("Testing McTesterson", @current_funding, @target_funding, @start_date)
+    @project = Project.new("Testbed")
+    @project.add_project(@fund_request)
   end
 
-  it "has a project name in all caps" do
-    @project.project_name.should == "TESTING MCTESTERSON"
+  it "adds a funding request to the project list" do
+    @project.project_group.should == "Testbed"
   end
 
-  it "has a current funding amount of 100" do
-    @project.project_current_funding.should == 100
+  it "adds funds on high roll" do
+    Die.any_instance.stub(:roll).and_return(5)
+    Die.any_instance.stub(:amount_roll).and_return(50)
+
+    @project.list_projects
+    @fund_request.project_current_funding.should == 150
   end
 
-  it "has a target funding amount of 10000" do
-    @project.project_target_funding.should == 10000
+  it "skips project on middle roll" do
+    Die.any_instance.stub(:roll).and_return(3)
+    Die.any_instance.stub(:amount_roll).and_return(50)
+
+    @project.list_projects
+    @fund_request.project_current_funding.should == 100
   end
 
-  it "has a date the project started raising funds" do
-    @project.project_start_date.should == "01/01/2001"
+  it "removes funds on low roll" do
+    Die.any_instance.stub(:roll).and_return(1)
+    Die.any_instance.stub(:amount_roll).and_return(50)
+
+    @project.list_projects
+    @fund_request.project_current_funding.should == 50
   end
-
-  it "will increase current funding when funds are added" do
-    @project.add_funding(100)
-    @project.project_current_funding.should == 200
-  end
-
-  it "will decrease current funding when funds are removed" do
-    @project.remove_funding(50)
-    @project.project_current_funding.should == 50
-  end
-
-  it "will calculate the funds remaining to hit goal" do
-    @project.remaining.should == "\tThey need $9900 to hit their goal of $10000\n\n"
-  end
-
-
 end
 
-
+# Die.any_instance.stub(:roll).and_return(5)
+# @game.play
+# @player.player_health.should == @initial_health + 15

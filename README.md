@@ -30,4 +30,6 @@ Progress tracker:
   - Straight forward, also did some refactoring to get the two projects named better and in seperate folders
 - Lesson 12: Unit Testing
   - Struggled a little with syntax but after doing it for both the game and the fundraising app it is making sense, though I'm not convinced I tested every possibility.  But, that may be the QA brain coming out.
-- Lesson 13
+- Lesson 13: Conditionals and TDD
+  - Took some time on this one.  Unit testing needs more work, conditionals are OK as long as I remember Ruby's weird syntax issues. Also had a bit of a breakthrough on how the classes and methods interact.
+- 
