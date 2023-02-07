@@ -27,7 +27,6 @@ describe Project do
 
   it "skips project on middle roll" do
     Die.any_instance.stub(:roll).and_return(3)
-    Die.any_instance.stub(:amount_roll).and_return(50)
 
     @project.list_projects
     @fund_request.project_current_funding.should == 100

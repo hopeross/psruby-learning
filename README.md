@@ -3,7 +3,7 @@ This is the repository to hold the code written while running through the Pragma
 
 Started on 31 January 2023
 
-Current as of 2 February 2023
+Current as of 7 February 2023
 
 Progress tracker:
 - Lesson 1: Introduction and Installation of Ruby.  
@@ -32,4 +32,5 @@ Progress tracker:
   - Struggled a little with syntax but after doing it for both the game and the fundraising app it is making sense, though I'm not convinced I tested every possibility.  But, that may be the QA brain coming out.
 - Lesson 13: Conditionals and TDD
   - Took some time on this one.  Unit testing needs more work, conditionals are OK as long as I remember Ruby's weird syntax issues. Also had a bit of a breakthrough on how the classes and methods interact.
-- 
+- Lesson 14: Modules
+  - Spent some time fiddling with this, did some refactoring of the funding code, updated unit tests to reflect that

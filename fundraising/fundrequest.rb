@@ -29,7 +29,11 @@ class FundRequest
   end
 
   def remove_funding(amount)
-    @project_current_funding -= amount
-    "The project lost $#{amount} in funding."
+    if @project_current_funding != 0
+      @project_current_funding -= amount
+      "The project lost $#{amount} in funding."
+    else
+      "The project has no funding to lose"
+    end
   end
 end

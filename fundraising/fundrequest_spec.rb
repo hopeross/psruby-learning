@@ -38,6 +38,20 @@ describe FundRequest do
   it "will calculate the funds remaining to hit goal" do
     @project.remaining.should == "\tThey need $9900 to hit their goal of $10000\n\n"
   end
+
+  context do
+    before do
+      @current_funding = 0
+      @target_funding = 10000
+      @start_date = "01/01/2001"
+      @project = FundRequest.new("Testing McTesterson", @current_funding, @target_funding, @start_date)
+    end
+
+    it "will not remove funds from a project with no funds" do
+      @project.remove_funding(50)
+      @project.project_current_funding.should == 0
+    end
+  end
 end
 
 
