@@ -3,7 +3,7 @@ This is the repository to hold the code written while running through the Pragma
 
 Started on 31 January 2023
 
-Current as of 7 February 2023
+Current as of 8 February 2023
 
 Progress tracker:
 - Lesson 1: Introduction and Installation of Ruby.  
@@ -34,3 +34,5 @@ Progress tracker:
   - Took some time on this one.  Unit testing needs more work, conditionals are OK as long as I remember Ruby's weird syntax issues. Also had a bit of a breakthrough on how the classes and methods interact.
 - Lesson 14: Modules
   - Spent some time fiddling with this, did some refactoring of the funding code, updated unit tests to reflect that
+- Lesson 15: Blocks
+  - This is one of those fun lessons where experts just whip out these common methods like we should all know them lol.  But, google searching helped me find a method I wanted for something and what they were saying made a ton of sense.  Also I'm fairly certain there's a bug in the fundraising project but will troubleshoot it more tomorrow.

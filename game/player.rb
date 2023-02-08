@@ -26,6 +26,9 @@ class Player
     "I'm #{@player_name} with a health of #{@player_health} and a score of #{score}"
   end
 
+  def <=> (other)
+    other.score <=> score
+  end
   def blam
     @player_health -= 10
     "#{@player_name} got blammed!"

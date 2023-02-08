@@ -2,8 +2,8 @@ require_relative 'die'
 module FundingRound
   def self.fund_project(project)
     die = Die.new
-    number_rolled = die.roll
-    amount_rolled = die.amount_roll
+    number_rolled = die.roll_d6
+    amount_rolled = die.roll_d100
 
     case number_rolled
       when 1..2

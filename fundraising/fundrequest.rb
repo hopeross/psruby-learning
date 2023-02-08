@@ -1,5 +1,5 @@
 class FundRequest
-  attr_reader :project_current_funding, :project_target_funding, :project_name, :project_start_date
+  attr_reader :project_current_funding, :project_target_funding, :project_name, :project_start_date, :funds_to_go
   attr_writer :project_name
 
   def initialize(name, current_funding=0, target_funding, date_started)
@@ -14,10 +14,17 @@ class FundRequest
   end
 
   def remaining
-    funds_to_go = @project_target_funding - @project_current_funding
-    "\tThey need $#{funds_to_go} to hit their goal of $#{@project_target_funding}\n\n"
+    @funds_to_go = @project_target_funding - @project_current_funding
+    "\tThey need $#{@funds_to_go} to hit their goal of $#{@project_target_funding}\n\n"
   end
 
+  def full?
+    if @project_current_funding >= @project_target_funding
+      true
+    else
+      false
+    end
+  end
   def add_funding(amount)
     @project_current_funding += amount
     if @project_current_funding >= @project_target_funding
@@ -25,7 +32,6 @@ class FundRequest
     else
       "The project received $#{amount} in funding."
     end
-
   end
 
   def remove_funding(amount)
