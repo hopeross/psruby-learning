@@ -1,5 +1,6 @@
 require_relative 'die'
 require_relative 'game_turn'
+require_relative 'treasure_trove'
 class Game
   attr_reader :game_name
   def initialize(game_name)
@@ -12,22 +13,23 @@ class Game
   end
 
   def print_name_and_health(player)
-    puts ("#{player.player_name} (#{player.player_health})")
+    puts "#{player.player_name} (#{player.player_health})"
   end
+
   def print_stats
     strong, whimpy = @players.partition { |p| p.strong?}
 
-    puts ("\nThere are #{strong.size} Strong Players: \n")
+    puts "\nThere are #{strong.size} Strong Players: \n"
     strong.each do |player|
       print_name_and_health(player)
     end
 
-    puts ("\nThere are #{whimpy.size} Whimpy Players: \n")
+    puts "\nThere are #{whimpy.size} Whimpy Players: \n"
     whimpy.each do |player|
       print_name_and_health(player)
     end
 
-    puts ("\n#{@game_name} High Scores")
+    puts "\n#{@game_name} High Scores"
     sorted_players = @players.sort
     top_players = sorted_players.first(3)
     top_players.each do |player|
@@ -38,12 +40,20 @@ class Game
 
   def play(rounds)
     puts "There are #{@players.length} players in #{game_name}\n\n"
+    @players.each do |player|
+      puts player
+    end
+
+    treasures = TreasureTrove::TREASURES
+    puts "\nThere are #{treasures.size} treasures to be found!"
+    treasures.each do |treasure|
+      puts "A #{treasure.name} is worth #{treasure.points} points"
+    end
 
     1.upto(rounds) do |round|
       puts("\nRound: #{round}\n\n")
       @players.each do |player |
         GameTurn.take_turn(player)
-        puts player
         puts ("\n")
       end
     end

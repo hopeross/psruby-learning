@@ -3,7 +3,8 @@ require_relative 'player'
 require_relative 'die'
 
 die = Die.new
-number_rounds = die.roll_d10
+# number_rounds = die.roll_d10
+number_rounds = 1
 
 player1 = Player.new("moe", 100)
 player2 = Player.new("larry", 60)

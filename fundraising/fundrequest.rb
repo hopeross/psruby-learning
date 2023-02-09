@@ -15,29 +15,29 @@ class FundRequest
 
   def remaining
     @funds_to_go = @project_target_funding - @project_current_funding
-    "\tThey need $#{@funds_to_go} to hit their goal of $#{@project_target_funding}\n\n"
+    if @funds_to_go > 0
+      "\tThey need $#{@funds_to_go} to hit their goal of $#{@project_target_funding}\n\n"
+    end
   end
 
   def full?
-    if @project_current_funding >= @project_target_funding
-      true
-    else
-      false
-    end
+    @project_current_funding >= @project_target_funding
   end
-  def add_funding(amount)
+  def add_funding(amount, pledge_level)
     @project_current_funding += amount
     if @project_current_funding >= @project_target_funding
       "The project has reached or exceeded their goal of $#{@project_target_funding}!!!"
     else
-      "The project received $#{amount} in funding."
+      "The project received a #{pledge_level} pledge, giving them a gain of $#{amount} in funding."
     end
   end
 
-  def remove_funding(amount)
+  def remove_funding(amount, pledge_level)
     if @project_current_funding != 0
-      @project_current_funding -= amount
-      "The project lost $#{amount} in funding."
+      if amount < @project_current_funding
+        @project_current_funding -= amount
+        "The project lost a #{pledge_level} pledge, causing them to lose $#{amount} in funding."
+      end
     else
       "The project has no funding to lose"
     end

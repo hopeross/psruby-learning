@@ -26,12 +26,12 @@ describe FundRequest do
   end
 
   it "will increase current funding when funds are added" do
-    @project.add_funding(100)
+    @project.add_funding(100, "purple")
     @project.project_current_funding.should == 200
   end
 
   it "will decrease current funding when funds are removed" do
-    @project.remove_funding(50)
+    @project.remove_funding(50, "purple")
     @project.project_current_funding.should == 50
   end
 
@@ -48,7 +48,7 @@ describe FundRequest do
     end
 
     it "will not remove funds from a project with no funds" do
-      @project.remove_funding(50)
+      @project.remove_funding(50, "purple")
       @project.project_current_funding.should == 0
     end
   end

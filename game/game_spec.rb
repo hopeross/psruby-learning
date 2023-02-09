@@ -12,19 +12,19 @@ describe Game do
   end
 
   it "should w00t the player on a high roll" do
-    Die.any_instance.stub(:roll).and_return(5)
+    Die.any_instance.stub(:roll_d6).and_return(5)
     @game.play(2)
     @player.player_health.should == @initial_health + 15 * 2
   end
 
   it "should skip the player on a medium roll" do
-    Die.any_instance.stub(:roll).and_return(3)
+    Die.any_instance.stub(:roll_d6).and_return(3)
     @game.play(2)
     @player.player_health.should == @initial_health
   end
 
   it "should blam the player on a low roll" do
-    Die.any_instance.stub(:roll).and_return(1)
+    Die.any_instance.stub(:roll_d6).and_return(1)
     @game.play(2)
     @player.player_health.should == @initial_health - 10 * 2
   end

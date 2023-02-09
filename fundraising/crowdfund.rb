@@ -34,7 +34,7 @@ pg1.add_project(project9)
 pg1.add_project(project10)
 pg1.list_projects(num_rounds)
 
-# pg2 = Project.new("Shopping")
+# pg2 = Project.new("Group Two")
 # pg2.add_project(project2)
 # pg2.list_projects(num_rounds)
 

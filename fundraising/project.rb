@@ -31,9 +31,10 @@ class Project
     sorted_projects = @projects.sort { |a, b| b.funds_to_go <=> a.funds_to_go }
     sorted_projects.each do |project|
       formatted_information = project.project_name.ljust(30, '.')
-      puts "#{formatted_information} #{project.funds_to_go}"
+      if project.funds_to_go > 0
+        puts "#{formatted_information} #{project.funds_to_go}"
+      end
     end
-
   end
 
   def list_projects(rounds)
@@ -44,7 +45,6 @@ class Project
 
       @projects.each do |project|
         FundingRound.fund_project(project)
-        # puts ProgressTracker.calc_progress(project)
         puts project
         puts project.remaining
       end
