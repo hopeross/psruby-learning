@@ -16,6 +16,9 @@ class Game
     puts "#{player.player_name} (#{player.player_health})"
   end
 
+  def total_points
+      @players.reduce(0) { |sum, player| sum + player.points }
+  end
   def print_stats
     strong, whimpy = @players.partition { |p| p.strong?}
 
@@ -29,13 +32,22 @@ class Game
       print_name_and_health(player)
     end
 
-    puts "\n#{@game_name} High Scores"
     sorted_players = @players.sort
+
+    puts "\nIndividual grand totals"
+    sorted_players.each do |player|
+      puts "\n#{player.player_name}'s point totals: \n#{player.points} grand total points"
+    end
+
+    puts "\n#{@game_name} High Scores"
+
     top_players = sorted_players.first(3)
     top_players.each do |player|
       formatted_name = player.player_name.ljust(20, '.')
       puts "#{formatted_name} #{player.score}"
     end
+
+    puts "\nTotal points accumulated this game: #{total_points}"
   end
 
   def play(rounds)
