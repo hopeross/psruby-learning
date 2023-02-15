@@ -36,7 +36,11 @@ class Game
 
     puts "\nIndividual grand totals"
     sorted_players.each do |player|
-      puts "\n#{player.player_name}'s point totals: \n#{player.points} grand total points"
+      puts "\n#{player.player_name}'s point totals: "
+      player.each_found_treasure do |treasure|
+        puts "#{treasure.name}: #{treasure.points} points"
+      end
+      puts "\nFor a grand total of: #{player.points}"
     end
 
     puts "\n#{@game_name} High Scores"
@@ -63,6 +67,12 @@ class Game
     end
 
     1.upto(rounds) do |round|
+      puts "Starting round: #{round} of #{rounds}"
+
+      if block_given?
+        break if yield
+      end
+
       puts("\nRound: #{round}\n\n")
       @players.each do |player |
         GameTurn.take_turn(player)
@@ -70,6 +80,6 @@ class Game
       end
     end
 
-    puts "\nAfter #{rounds} rounds, here are the results!"
+    puts "\nHere are the results!"
   end
 end

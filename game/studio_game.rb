@@ -28,7 +28,10 @@ current_game.add_player(player7)
 current_game.add_player(player8)
 current_game.add_player(player9)
 current_game.add_player(player10)
-current_game.play(number_rounds)
+
+current_game.play(number_rounds) do
+  current_game.total_points >= 2000
+end
 
 current_game.print_stats
 

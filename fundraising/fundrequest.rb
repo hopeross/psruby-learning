@@ -1,45 +1,69 @@
+require_relative 'project'
+require_relative 'funding_round'
+require_relative 'pledge_levels'
 class FundRequest
-  attr_reader :project_current_funding, :project_target_funding, :project_name, :project_start_date, :funds_to_go
-  attr_writer :project_name
+  attr_reader :project_group
 
-  def initialize(name, current_funding=0, target_funding, date_started)
-    @project_name = name.upcase
-    @project_current_funding = current_funding
-    @project_target_funding = target_funding
-    @project_start_date = date_started
+  def initialize(group)
+    @project_group = group
+    @projects = []
   end
 
-  def to_s
-    "Project #{@project_name} was created on #{@project_start_date}. Currently they have raised $#{@project_current_funding}."
+  def add_project(project)
+    @projects.push(project)
   end
 
-  def remaining
-    @funds_to_go = @project_target_funding - @project_current_funding
-    if @funds_to_go > 0
-      "\tThey need $#{@funds_to_go} to hit their goal of $#{@project_target_funding}\n\n"
+  def request_funding(rounds)
+    puts "There are #{@projects.size} projects that you could fund: "
+
+    @projects.each do |project|
+      puts project
     end
-  end
 
-  def full?
-    @project_current_funding >= @project_target_funding
-  end
-  def add_funding(amount, pledge_level)
-    @project_current_funding += amount
-    if @project_current_funding >= @project_target_funding
-      "The project has reached or exceeded their goal of $#{@project_target_funding}!!!"
-    else
-      "The project received a #{pledge_level} pledge, giving them a gain of $#{amount} in funding."
+    pledges = PledgeLevels::PLEDGES
+    puts "There are #{pledges.size} possible pledge amounts: "
+    pledges.each do |p|
+      puts "A #{p.name} is worth $#{p.amount}"
     end
-  end
 
-  def remove_funding(amount, pledge_level)
-    if @project_current_funding != 0
-      if amount < @project_current_funding
-        @project_current_funding -= amount
-        "The project lost a #{pledge_level} pledge, causing them to lose $#{amount} in funding."
+    1.upto(rounds) do |round|
+      @projects.each do |project|
+        FundingRound.fund_project(project)
+        puts project
       end
-    else
-      "The project has no funding to lose"
+    end
+  end
+
+  def print_name(project)
+    puts "#{project.name}"
+  end
+
+  def print_results
+    fully, under = @projects.partition { |project | project.full? }
+
+    puts "\n#{fully} Fully Funded Projects: "
+    fully.each do |project|
+      print_name(project)
+    end
+
+    puts "\n#{under} Under Funded Projects: "
+    under.each do |project|
+      print_name(project)
+    end
+
+    sorted_projects = under.sort { |a, b| b.total_funding_outstanding <=> a.total_funding_outstanding}
+    puts "\n#{under.size} projects still need your help: "
+    sorted_projects.each do |project|
+      formatted_name = project.name.ljust(20, '.')
+      puts "#{formatted_name} $#{project.total_funding_outstanding} under"
+    end
+
+    @projects.each do | project |
+      puts "\n#{project.name}'s pledges: "
+      project.each_pledge do |pledge|
+        puts "$#{pledge.amount} in #{pledge.name} pledges"
+      end
+      puts "$#{project.pledges} in total pledges"
     end
   end
 end

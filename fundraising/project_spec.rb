@@ -1,42 +1,115 @@
-require_relative 'spec_helper'
 require_relative 'project'
-require_relative 'fundrequest'
-require_relative 'die'
 
 describe Project do
+
   before do
-    @current_funding = 100
-    @target_funding = 10000
-    @start_date = "01/01/2001"
-    @fund_request = FundRequest.new("Testing McTesterson", @current_funding, @target_funding, @start_date)
-    @project = Project.new("Testbed")
-    @project.add_project(@fund_request)
+    @initial_funds = 1000
+    @project = Project.new("mickey mouse manor", @initial_funds, 5000, "01/01/2001")
   end
 
-  it "adds a funding request to the project list" do
-    @project.project_group.should == "Testbed"
+  it "has an initial target funding amount" do
+    @project.target_amount.should == 5000
   end
 
-  it "adds funds on high roll" do
-    Die.any_instance.stub(:roll_d6).and_return(5)
-    Die.any_instance.stub(:roll_d100).and_return(50)
-
-    @project.list_projects(1)
-    @fund_request.project_current_funding.should == 150
+  it "computes the total funds outstanding as the target funding amount minus the funding amount" do
+    @project.total_funding_outstanding.should == (5000 - 1000)
   end
 
-  it "skips project on middle roll" do
-    Die.any_instance.stub(:roll_d6).and_return(3)
+  it "increases funds by 25 when funds are added" do
+    @project.add_funds
 
-    @project.list_projects(1)
-    @fund_request.project_current_funding.should == 100
+    @project.current_amount.should == @initial_funds + 25
   end
 
-  it "removes funds on low roll" do
-    Die.any_instance.stub(:roll_d6).and_return(1)
-    Die.any_instance.stub(:roll_d100).and_return(50)
+  it "decreases funds by 15 when funds are removed" do
+    @project.remove_funds
 
-    @project.list_projects(1)
-    @fund_request.project_current_funding.should == 50
+    @project.current_amount.should == @initial_funds - 15
   end
+
+  context "created without a funding amount" do
+    before do
+      @project = Project.new("mickey mouse manor", 5000,"01/01/2001")
+    end
+
+    it "has a default funding amount of 0" do
+      @project.target_amount.should == 0
+    end
+  end
+
+  context "when total funding outstanding is less than or equal to 0" do
+    before do
+      @project = Project.new("mickey mouse manor", 5500, 5000,"01/01/2001")
+    end
+
+    it "is fully-funded" do
+      @project.should be_full
+    end
+  end
+
+  context "when total funding outstanding is greater than 0" do
+    before do
+      @project = Project.new("ProjectABC", 0, 1000, "01/01/2001")
+    end
+
+    it "is under-funded" do
+      @project.should_not be_full
+    end
+  end
+
+  it "computes pledges as the sum of all pledges" do
+    @project.pledges.should == 0
+
+    @project.received_pledge(Pledge.new(:copper, 10))
+
+    @project.pledges.should == 10
+
+    @project.received_pledge(Pledge.new(:bronze, 25))
+
+    @project.pledges.should == 35
+
+    @project.received_pledge(Pledge.new(:silver, 50))
+
+    @project.pledges.should == 85
+
+    @project.received_pledge(Pledge.new(:gold, 100))
+
+    @project.pledges.should == 185
+
+    @project.received_pledge(Pledge.new(:platinum, 250))
+
+    @project.pledges.should == 435
+
+    @project.received_pledge(Pledge.new(:diamond, 500))
+
+    @project.pledges.should == 935
+  end
+
+  it "computes total funds as the sum of a projects funding and pledges" do
+    @project.received_pledge(Pledge.new(:gold, 100))
+    @project.received_pledge(Pledge.new(:gold, 100))
+
+    @project.total_funds.should == 1200
+  end
+
+  it "yields each received pledge and its total pledge amount" do
+    @project.received_pledge(Pledge.new(:bronze, 50))
+    @project.received_pledge(Pledge.new(:silver, 75))
+    @project.received_pledge(Pledge.new(:silver, 75))
+    @project.received_pledge(Pledge.new(:gold, 100))
+    @project.received_pledge(Pledge.new(:gold, 100))
+    @project.received_pledge(Pledge.new(:gold, 100))
+
+    yielded = []
+    @project.each_pledge do |pledge|
+      yielded << pledge
+    end
+
+    yielded.should == [
+      Pledge.new(:bronze, 50),
+      Pledge.new(:silver, 150),
+      Pledge.new(:gold, 300)
+    ]
+  end
+
 end

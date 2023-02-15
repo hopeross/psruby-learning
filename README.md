@@ -40,4 +40,6 @@ Progress tracker:
   - This is making sense.  Which means I either missed something important or it is as easy as it seems.
 - Lesson 17: Hashes
   - Going to need to spend more time with this.  Got the project to work, but need more time with it
+- Lesson 18: Custom Iterators
+  - Will need to do this a bit more I think.  I got the challenges done but it'll take a little bit to cement.  Also spent some time cleaning up the mess I had made of the fundraising project, I had methods on the wrong class and just a hot mess.  But the massive refeactor helped cement some things and was successful all tests run
 - 

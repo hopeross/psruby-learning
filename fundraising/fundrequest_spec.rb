@@ -1,57 +1,43 @@
-require_relative 'spec_helper'
 require_relative 'fundrequest'
 
 describe FundRequest do
+
   before do
-    @current_funding = 100
-    @target_funding = 10000
-    @start_date = "01/01/2001"
-    @project = FundRequest.new("Testing McTesterson", @current_funding, @target_funding, @start_date)
+    @fundrequest = FundRequest.new("VC-Friendly Start-up Projects")
+
+    @initial_funds = 1000
+    @project = Project.new("mickey mouse manor", @initial_funds, 5000, "01/01/2001")
+    @fundrequest.add_project(@project)
   end
 
-  it "has a project name in all caps" do
-    @project.project_name.should == "TESTING MCTESTERSON"
+  it "adds funds to a project if an even number is rolled" do
+    Die.any_instance.stub(:roll_d6).and_return(4)
+
+    @fundrequest.request_funding(2)
+
+    @project.current_amount.should == @initial_funds + (25 * 2)
+    puts @initial_funds
   end
 
-  it "has a current funding amount of 100" do
-    @project.project_current_funding.should == 100
+  it "removes funds to a project if an odd number is rolled" do
+    Die.any_instance.stub(:roll_d6).and_return(3)
+
+    @fundrequest.request_funding(2)
+
+    @project.current_amount.should == @initial_funds - (15 * 2)
+    puts @initial_funds
   end
 
-  it "has a target funding amount of 10000" do
-    @project.project_target_funding.should == 10000
+  it "assigns a pledge for amount during a project's funding round" do
+    fundrequest = FundRequest.new("VC-Friendly Start-up Projects")
+    project = Project.new("Project ABC", 1000, 2000, "01/01/2001")
+
+    fundrequest.add_project(project)
+
+    fundrequest.request_funding(1)
+
+    project.pledges.should_not be_zero
   end
 
-  it "has a date the project started raising funds" do
-    @project.project_start_date.should == "01/01/2001"
-  end
-
-  it "will increase current funding when funds are added" do
-    @project.add_funding(100, "purple")
-    @project.project_current_funding.should == 200
-  end
-
-  it "will decrease current funding when funds are removed" do
-    @project.remove_funding(50, "purple")
-    @project.project_current_funding.should == 50
-  end
-
-  it "will calculate the funds remaining to hit goal" do
-    @project.remaining.should == "\tThey need $9900 to hit their goal of $10000\n\n"
-  end
-
-  context do
-    before do
-      @current_funding = 0
-      @target_funding = 10000
-      @start_date = "01/01/2001"
-      @project = FundRequest.new("Testing McTesterson", @current_funding, @target_funding, @start_date)
-    end
-
-    it "will not remove funds from a project with no funds" do
-      @project.remove_funding(50, "purple")
-      @project.project_current_funding.should == 0
-    end
-  end
 end
-
 

@@ -1,55 +1,70 @@
-require_relative 'die'
-require_relative 'funding_round'
+require_relative 'pledge_levels'
 
 class Project
-  attr_reader :project_group
-  def initialize (name)
-    @project_group = name
-    @projects = []
+  attr_accessor :name
+  attr_reader :current_amount, :target_amount
+  def initialize (name, current_funding_amount, target_funding_amount=0, start_date)
+    @name = name.upcase
+    @target_amount = target_funding_amount
+    @current_amount = current_funding_amount
+    @start_date = start_date
+    @project_pledges = Hash.new(0)
   end
 
-  def add_project(project)
-    @projects << project
+  def to_s
+    "#{name} has $#{total_funds} in funding towards a goal of $#{@target_amount}"
   end
 
-  def print_name_and_current_funding(project)
-    puts ("#{project.project_name} (#{project.project_current_funding})")
-  end
-  def funding_check
-    fully, under = @projects.partition { |p| p.full? }
-    puts "\nThere are #{fully.size} fully funded projects"
-    fully.each do |project|
-      print_name_and_current_funding(project)
-    end
+  # def get_date(offset)
+  #   date = Time.now
+  #   @start_date = date.strftime("%m/%d/%Y")
+  # end
 
-    puts "\nThere are #{under.size} under funded projects"
-    under.each do |project|
-      print_name_and_current_funding(project)
-    end
-
-    puts "\nThe following projects still need funding: "
-    sorted_projects = @projects.sort { |a, b| b.funds_to_go <=> a.funds_to_go }
-    sorted_projects.each do |project|
-      formatted_information = project.project_name.ljust(30, '.')
-      if project.funds_to_go > 0
-        puts "#{formatted_information} #{project.funds_to_go}"
-      end
-    end
+  def remove_funds
+    @current_amount -= 15
+    puts "\n#{@name} lost some funds!"
   end
 
-  def list_projects(rounds)
-    puts("There are #{@projects.length} projects currently available to fund in #{@project_group}: \n\n")
+  def add_funds
+    @current_amount += 25
+    puts "\n#{@name} got more funds!"
+  end
 
-    1.upto(rounds) do | round |
-      puts("\nFunding Round: #{round}\n\n")
+  def total_funding_outstanding
+    @target_amount - total_funds
+  end
 
-      @projects.each do |project|
-        FundingRound.fund_project(project)
-        puts project
-        puts project.remaining
-      end
+  def full?
+    total_funding_outstanding <= 0
+  end
+
+  def received_pledge(pledge)
+    @project_pledges[pledge.name] += pledge.amount
+    puts "#{@name} received a #{pledge.name} pledge with $#{pledge.amount}"
+    puts "#{@name}'s pledges total: #{@project_pledges}'"
+  end
+
+  def pledges
+    @project_pledges.values.reduce(0, :+)
+  end
+
+  def total_funds
+    @current_amount + pledges
+  end
+
+  def each_pledge
+    @project_pledges.each do |name, amount|
+      yield Pledge.new(name, amount)
     end
+  end
 
-    funding_check
+  if __FILE__ == $0
+    project = Project.new("Project ABC", 5000, 250,1000)
+    puts project.name
+    puts project.funding
+    project.remove_funds
+    puts project.funding
+    project.add_funds
+    puts project.funding
   end
 end
