@@ -1,6 +1,7 @@
 require_relative 'project'
 require_relative 'funding_round'
 require_relative 'pledge_levels'
+require_relative 'die'
 class FundRequest
   attr_reader :project_group
 
@@ -11,6 +12,33 @@ class FundRequest
 
   def add_project(project)
     @projects.push(project)
+  end
+
+  def load_projects(from_file)
+    File.readlines(from_file).each do |line|
+      puts line
+      name, cf, tf = line.split(',')
+      project = Project.new(name.chomp, Integer(cf), Integer(tf), get_date(42))
+      add_project(project)
+    end
+  end
+
+  def save_projects(to_file)
+    File.open(to_file, "w") do |file|
+      file.puts "Results of funding round(s)"
+
+      sorted_projects = @projects.sort { |a, b| b.total_funding_outstanding <=> a.total_funding_outstanding}
+
+      sorted_projects.each do |project|
+        formatted_name = project.name.ljust(20, '.')
+        file.puts "#{formatted_name} $#{project.total_funds} (goal was: #{project.target_amount})"
+      end
+    end
+  end
+
+  def get_date(offset=0)
+    current_date = Time.now - (offset * 24 * 3600)
+    current_date.strftime("%m/%d/%Y")
   end
 
   def request_funding(rounds)

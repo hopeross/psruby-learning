@@ -15,11 +15,6 @@ class Project
     "#{name} has $#{total_funds} in funding towards a goal of $#{@target_amount}"
   end
 
-  # def get_date(offset)
-  #   date = Time.now
-  #   @start_date = date.strftime("%m/%d/%Y")
-  # end
-
   def remove_funds
     @current_amount -= 15
     puts "\n#{@name} lost some funds!"

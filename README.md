@@ -3,7 +3,7 @@ This is the repository to hold the code written while running through the Pragma
 
 Started on 31 January 2023
 
-Current as of 13 February 2023
+Current as of 17 February 2023
 
 Progress tracker:
 - Lesson 1: Introduction and Installation of Ruby.  
@@ -42,4 +42,6 @@ Progress tracker:
   - Going to need to spend more time with this.  Got the project to work, but need more time with it
 - Lesson 18: Custom Iterators
   - Will need to do this a bit more I think.  I got the challenges done but it'll take a little bit to cement.  Also spent some time cleaning up the mess I had made of the fundraising project, I had methods on the wrong class and just a hot mess.  But the massive refeactor helped cement some things and was successful all tests run
+- Lesson 19: Input/Output
+  - gets.chomp.  Seriously?!  this seems fairly straightforward actually, the hardest part was dealing with context. 
 - 
