@@ -40,17 +40,16 @@ class Player
     end
   end
 
-
   def <=> (other)
     other.score <=> score
   end
   def blam
     @player_health -= 10
-    "#{@player_name} got blammed!"
+    puts "#{@player_name} got blammed!"
   end
 
   def w00t
     @player_health += 15
-    "#{@player_name} got w00ted!"
+    puts "#{@player_name} got w00ted!"
   end
 end
