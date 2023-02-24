@@ -1,6 +1,9 @@
 require_relative 'pledge_levels'
+require_relative 'fundable'
 
 class Project
+  include Fundable
+
   attr_accessor :name
   attr_reader :current_amount, :target_amount
   def initialize (name, current_funding_amount, target_funding_amount=0, start_date)
@@ -13,24 +16,6 @@ class Project
 
   def to_s
     "#{name} has $#{total_funds} in funding towards a goal of $#{@target_amount}"
-  end
-
-  def remove_funds
-    @current_amount -= 15
-    puts "\n#{@name} lost some funds!"
-  end
-
-  def add_funds
-    @current_amount += 25
-    puts "\n#{@name} got more funds!"
-  end
-
-  def total_funding_outstanding
-    @target_amount - total_funds
-  end
-
-  def full?
-    total_funding_outstanding <= 0
   end
 
   def received_pledge(pledge)

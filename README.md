@@ -3,7 +3,7 @@ This is the repository to hold the code written while running through the Pragma
 
 Started on 31 January 2023
 
-Current as of 21 February 2023
+Current as of 24 February 2023
 
 Progress tracker:
 - Lesson 1: Introduction and Installation of Ruby.  
@@ -46,3 +46,5 @@ Progress tracker:
   - gets.chomp.  Seriously?!  this seems fairly straightforward actually, the hardest part was dealing with context. 
 - Lesson 20: Inheritence
   - Spending more time with this will be good but it's making sense.  At least it seems to lol.
+- Lesson 21: Mixins
+  - Weirdly, these make sense. 
