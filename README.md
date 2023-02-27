@@ -3,7 +3,7 @@ This is the repository to hold the code written while running through the Pragma
 
 Started on 31 January 2023
 
-Current as of 24 February 2023
+Current as of 27 February 2023
 
 Progress tracker:
 - Lesson 1: Introduction and Installation of Ruby.  
@@ -48,3 +48,6 @@ Progress tracker:
   - Spending more time with this will be good but it's making sense.  At least it seems to lol.
 - Lesson 21: Mixins
   - Weirdly, these make sense. 
+- Lesson 22: Distribution
+  - Its amazing how much you learn while struggling through something.  IntelliJ's "helpful" refactoring actually broke things for me but I better understand how require/require_relative and file locations work because of that.  I think.
+- 
